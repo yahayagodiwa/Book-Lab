@@ -247,7 +247,7 @@ const updateProfile = async (req, res)=>{
 
   const updatedUser = await User.findByIdAndUpdate(userId, req.body, {runValidators: true, new: true});
   if(!updatedUser) return res.status(404).json({error: "User not found"})
- return res.status(200).json({message: "Profile updated successfully"})
+ return res.status(200).json({message: "Profile updated successfully", updatedUser})
     
   } catch (error) {
 
@@ -262,5 +262,5 @@ const updateProfile = async (req, res)=>{
 
 
 module.exports = {
-    register, verifyEmail, login, getUser, forgetPassword, resetPassword
+    register, verifyEmail, login, getUser, forgetPassword, resetPassword, updateProfile
 }

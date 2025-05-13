@@ -1,5 +1,5 @@
 const express = require('express')
-const { register, verifyEmail, login, getUser, forgetPassword, resetPassword } = require('../controller/authController')
+const { register, verifyEmail, login, getUser, forgetPassword, resetPassword, updateProfile } = require('../controller/authController')
 const { authMiddleware } = require('../middleware/authentication')
 
 
@@ -13,6 +13,7 @@ router.post('/login', login)
 router.get('/single-user/:id', authMiddleware, getUser)
 router.post('/forget-password', forgetPassword)
 router.post('/reset-password', resetPassword)
+router.patch('/update-profile', authMiddleware, updateProfile)
 
 
 
