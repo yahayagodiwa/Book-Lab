@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
         enum: ['user', "staff", "admin"],
         default: "user"
     },
+    fine:{
+        type: Number,
+        default: 0
+    },
     createdAt:{
         type: Date,
         default: Date.now
@@ -40,8 +44,12 @@ const userSchema = new mongoose.Schema({
     books:[{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Book"
-        }]
+        }],
+    borrows: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Borrow"
+    }]
 })
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 module.exports = User

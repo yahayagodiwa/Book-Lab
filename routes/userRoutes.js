@@ -8,9 +8,9 @@ const router = express.Router()
 
 
 router.post('/register', register)
-router.get('/verify-email', verifyEmail)
+router.get('/verify-email/:id', verifyEmail)
 router.post('/login', login)
-router.get('/single-user/:id', authMiddleware, getUser)
+router.get('/single-user/:id', getUser)
 router.post('/forget-password', forgetPassword)
 router.post('/reset-password', resetPassword)
 router.patch('/update-profile', authMiddleware, updateProfile)

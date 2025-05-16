@@ -7,7 +7,9 @@ const reviewSchema = new mongoose.Schema({
     },
     rating: {
         type: Number,
-        required: true
+        required: true,
+        min: 1,
+        max: 5
     },
     reviewAuthor: {
         type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +24,6 @@ const reviewSchema = new mongoose.Schema({
 })
 
 
-const Review = mongoose.model("Review", reviewSchema)
+const Review = mongoose.models.Review || mongoose.model('Review', reviewSchema);
 
 module.exports = Review

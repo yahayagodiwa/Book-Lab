@@ -14,7 +14,7 @@ try {
         from: "Prodigy",
         to: user.email,
         subject: "Verify Your Email",
-        text: `Click the link to verify your email: ${process.env.FRONTEND_URL}/user/verify-email/${user.id}`
+        text: `Click the link to verify your email: ${process.env.FRONTEND_URL}/user/verify-email/${user._id}`
     }
     await transporter.sendMail(mailOptions)
 } catch (error) {

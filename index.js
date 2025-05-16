@@ -5,6 +5,7 @@ const connectDb = require('./Db/connection')
 const dotenv = require('dotenv')
 dotenv.config()
 const userRoutes = require('./routes/userRoutes')
+const bookRoutes = require('./routes/bookRoutes')
 
 const app = express()
 const port = process.env.PORT
@@ -16,6 +17,7 @@ app.use(cors({
 }))
 
 app.use('/user', userRoutes)
+app.use('/book', bookRoutes)
 
 
 app.listen(port, ()=>{

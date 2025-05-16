@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const User = require("../models/user");
+const User = require('../models/User')
 const { sendVerification } = require("../middleware/sendVerification");
 
 
@@ -73,7 +73,7 @@ const verifyEmail = async (req, res)=>{
   if(!id){
     return res.status(400).json({error: "Invalid link"})
   }
-  const existing = await User.findById({id})
+  const existing = await User.findById(id)
   if(!existing){
     return res.status(404).json({error: "User does not exist"})
   }
@@ -133,7 +133,7 @@ const login = async (req, res)=>{
 
 const getUser = async (req, res)=>{
     const {id} = req.params
-    const user = await User.findById(id)
+    const user = await User.findById(id).populate('borrows')
     if(!id){
       return res.status(404).json({error: "User not found"})
     }
