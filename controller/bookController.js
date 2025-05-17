@@ -239,8 +239,44 @@ const reviewBook = async (req, res) => {
   }
 };
 
+//////--------------------------------- like Book -------------------------------//////////////////
+
+const likeBook = async (req, res) => {
+ try {
+   const { id } = req.params;
+   
+  const userId = req.user._id.toString(); // Ensure it's a string
+
+  const book = await Book.findById(id);
+  
+  if (!book) return res.status(404).json({ error: "Book not found" });
+
+  const likedIndex = book.likedBy.findIndex(
+    (uid) => uid.toString() === userId
+  );
+
+  if (likedIndex !== -1) {
+    // User already liked the book — Unlike it
+    book.likes -= 1;
+    book.likedBy.splice(likedIndex, 1);
+    await book.save();
+    return res.status(200).json({ message: "Book unliked" });
+  } else {
+    // Like it
+    book.likes += 1;
+    book.likedBy.push(userId);
+    await book.save();
+    return res.status(200).json({ message: "Book liked" });
+  }
+ } catch (error) {
+  console.error(err);
+    return res.status(500).json({ error: "Something went wrong" });
+ }
+};
+
+
 
 
 module.exports = {
-  recordBook, allBook, singleBook, borrowBook, returnBook, reviewBook
+  recordBook, allBook, singleBook, borrowBook, returnBook, reviewBook, likeBook
 };
