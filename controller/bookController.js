@@ -155,7 +155,8 @@ const borrowBook = async (req, res)=>{
     const newBorrow = new Borrow({
         book: id,
         borrowNote,
-        returnDate
+        returnDate,
+        fine: book.fine
     })
     await newBorrow.save()
 
@@ -189,6 +190,8 @@ const returnBook = async (req, res)=>{
     
     if(now > borrow.returnDate){
      const user = await User.findById(req.user._id)
+     console.log(borrow);
+     
       user.fine += borrow.book.fine
       await user.save()
     }
@@ -274,9 +277,37 @@ const likeBook = async (req, res) => {
  }
 };
 
+//////--------------------------------- Update Book -------------------------------//////////////////
+const updateBook = async (req, res)=>{
+  try {
+    const {id} = req.params
+  const book = await Book.findById(id)
+
+  if(!book) return res.status(404).json({error: "Book not found"})
+  const updatedBook = await Book.findByIdAndUpdate(id, req.body, {new: true, runValidators: true})
+  return res.status(200).json({message: "Book updated successfully", updatedBook})
+  } catch (err) {
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+}
+
+//////--------------------------------- Delete Book -------------------------------//////////////////
+const deleteBook = async (req, res)=>{
+  try {
+    const {id} = req.params
+  const book = await Book.findById(id)
+  if(!book) return res.status(404).json({error: "Book not found"})
+  await Book.findOneAndDelete(id)
+  return res.status(200).json({message: "Book deleted successfully"})
+  } catch (error) {
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+}
 
 
 
 module.exports = {
-  recordBook, allBook, singleBook, borrowBook, returnBook, reviewBook, likeBook
+  recordBook, allBook, singleBook, borrowBook, 
+  returnBook, reviewBook, likeBook, updateBook,
+  deleteBook
 };
